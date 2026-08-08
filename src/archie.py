@@ -33,6 +33,7 @@ ASSIGNMENT_DICT = {}
 VAR_DESCRIPTIONS = {}
 HARDWARE_ID_MAPPING = {}
 ALL_PROPERTIES = []
+ALL_OBJECTIVES = []
 
 TOTAL_COST = Real("Total cost")
 VAR_DESCRIPTIONS["Total cost"] = "Total cost"
@@ -282,7 +283,8 @@ class Objective:
         if id in OBJECTIVES:
             raise KeyError("Objective with", id, "already exists.")
         self.id = id
-        OBJECTIVES[id] = self
+        OBJECTIVES[id] = Bool(self.id)
+        VAR_DESCRIPTIONS[self.id] = f"{self.id} is an objective of the workload"
 
 
 class Workload:
@@ -310,6 +312,9 @@ class Workload:
         self.solution_configs = {}
         self.alloted_solution_rewards = {}
         self.expected_solution_rewards = {}
+        for objective_id in OBJECTIVES:
+            if objective_id in map(lambda x: x.id, objectives):
+                ALL_OBJECTIVES.append(OBJECTIVES[objective_id])
         for workload_property in WORKLOAD_PROPERTIES:
             if workload_property in map(lambda x: x.id, properties):
                 ALL_PROPERTIES.append(WORKLOAD_PROPERTIES[workload_property])
@@ -522,7 +527,7 @@ def get_ordering_constraints(workload):
 
     for system_id in SYSTEMS:
         for objective_id in OBJECTIVES:
-            if OBJECTIVES[objective_id] not in SYSTEMS[system_id].objectives:
+            if objective_id not in map(lambda x: x.id, SYSTEMS[system_id].objectives):
                 constraints.append(workload.expected_solution_rewards[system_id][objective_id] == 0)
     return And(*[constraints])
 
@@ -622,7 +627,7 @@ def track_atomic_fine(hl_expr, solver, recursive = False, assertion_name = None)
     global counter
     if is_and(hl_expr):
         for arg in hl_expr.children():
-            track_atomic(arg, solver, recursive = True)
+            track_atomic_fine(arg, solver, recursive = True)
     elif is_implies(hl_expr) and is_and(hl_expr.arg(1)):
         constraint_list = break_and(hl_expr.arg(1))
         for constraint in constraint_list:
@@ -779,18 +784,18 @@ def evaluate(solver=SOLVER, debug = False, explain = False, recursive = False):
             SOLVER_UNSAT.check()
 
             # Break down constraints (that are already broken down!) and try again
-            next_unsat_core = SOLVER_UNSAT.unsat_core()
-            for assertion in next_unsat_core:
-                track_atomic_fine(TRACKED_CONSTRAINTS[str(assertion)], solver=SOLVER_UNSAT_FINE, assertion_name=str(assertion))
+            next_unsat_core_fine = SOLVER_UNSAT.unsat_core()
+            # for assertion in next_unsat_core:
+            #     track_atomic_fine(TRACKED_CONSTRAINTS[str(assertion)], solver=SOLVER_UNSAT_FINE, assertion_name=str(assertion))
 
-            SOLVER_UNSAT_FINE.check()
-            next_unsat_core_fine = SOLVER_UNSAT_FINE.unsat_core()
+            # SOLVER_UNSAT_FINE.check()
+            # next_unsat_core_fine = SOLVER_UNSAT_FINE.unsat_core()
             print("Unsat core:", next_unsat_core_fine)
             print("")
             print("CHOICES")
             print("")
             for assertion in next_unsat_core_fine:
-                if (TRACKED_CONSTRAINTS[str(assertion)].decl().kind() == Z3_OP_EQ):
+                if ("enable" in str(assertion) and TRACKED_CONSTRAINTS[str(assertion)].decl().kind() == Z3_OP_EQ):
                     print_atomic(TRACKED_CONSTRAINTS[str(assertion)])
                     print("-------")
                     
@@ -805,13 +810,25 @@ def evaluate(solver=SOLVER, debug = False, explain = False, recursive = False):
                     print("-------")
             
 # Entry function to track and assert constraints and fix choices before reevaluation of the constraints for explainability
-def explain(workload, order_role, order_objective, fix_roles=None, priority_number=0, solver=SOLVER, solver_unsat=SOLVER_UNSAT):
-    # # Fix hardware choices
-    # for k in DEVICES.keys():
-    #     val = ASSIGNMENT_DICT[k + HARDWARE_VARIABLES_SUFFIX]
-    #     solver.assert_and_track((DEVICES[k].hardware_id == RealVal(val)), f"h_{k}")
-    #     TRACKED_CONSTRAINTS[f"h_{k}"] = (DEVICES[k].hardware_id == RealVal(val))
-    
+def explain(workload, order_role, order_objective, fix_hardware=None, fix_roles=None, priority_number=0, solver=SOLVER, solver_unsat=SOLVER_UNSAT):
+
+    if len(ASSIGNMENT_DICT) == 0:
+        evaluate(solver, debug = True, explain = True, recursive  = True)
+        return
+
+    # Fix hardware choices
+    if fix_hardware is not None:
+        if fix_hardware == "all":
+            for k in DEVICES.keys():
+                val = ASSIGNMENT_DICT[k + HARDWARE_VARIABLES_SUFFIX]
+                solver.assert_and_track((DEVICES[k].hardware_id == RealVal(val)), f"h_{k}")
+                TRACKED_CONSTRAINTS[f"h_{k}"] = (DEVICES[k].hardware_id == RealVal(val))
+        else:
+            for k in fix_hardware:
+                val = ASSIGNMENT_DICT[k + HARDWARE_VARIABLES_SUFFIX]
+                solver.assert_and_track((DEVICES[k].hardware_id == RealVal(val)), f"h_{k}")
+                TRACKED_CONSTRAINTS[f"h_{k}"] = (DEVICES[k].hardware_id == RealVal(val))
+
     # Fix COST
     solver.assert_and_track((TOTAL_COST <= RealVal(int(str(ASSIGNMENT_DICT["Total cost"])))), "Fix cost")
     TRACKED_CONSTRAINTS["Fix cost"] = (TOTAL_COST <= RealVal(int(str(ASSIGNMENT_DICT["Total cost"]))))
@@ -906,7 +923,7 @@ def create_microservice_pod(id, num_racks, num_routers=None, num_cpus=None, num_
     else:
         storage_racks = []
     if num_cpus != None:
-        compute_racks = [create_rack(get_id(id, index), num_cpus) for index in range(1, max(1, num_racks - 1) + 1)]
+        compute_racks = [create_rack(get_id(id, index), num_cpus) for index in range(1, max(1, num_racks) + 1)]
     else:
         compute_racks = []
     if num_routers != None:
@@ -1037,12 +1054,6 @@ cpu_sched = Role("cpu_sched")
 load_balancer = Role("load_balancer")
 monitor = Role("Monitor")
 
-# orchestrator = Role("Orchestrator")
-# rpc = Role("Rpc")
-# service_mesh = Role("Service mesh")
-# autoscaler = Role("Autoscaler")
-# container_runtime = Role("Container runtime")
-
 def wan_dc_compeition_condition(workload):
     links = workload.topology.get_children(device_type = DEVICE_TYPE.LINK)
     for link in links:
@@ -1099,6 +1110,7 @@ fault_tolerance = Objective("fault_tolerance")
 high_availability = Objective("high_availability")
 cost_efficiency = Objective("cost_efficiency")
 low_utilization = Objective("low_utilization")
+high_priority = Objective("high_priority")
 
 
 # Properties
@@ -1137,3 +1149,4 @@ c_plus_plus = WorkloadProperties("C++")
 java = WorkloadProperties("Java")
 tls = WorkloadProperties("TLS")
 ui = WorkloadProperties("UI")
+fixed_arch = WorkloadProperties("Fixed arch")
