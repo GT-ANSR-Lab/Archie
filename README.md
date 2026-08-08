@@ -17,7 +17,7 @@ Archie is a lightweight yet expressive constraint-based design and verification 
 
 ## Prerequisites
 
-Use **Python 3.11.5 or later** and **Z3 4.13.0 or later**.  The code imports Z3 through its Python bindings; installing the `z3-solver` package provides the Z3 library required by the artifact, so a separate Z3 command-line installation is not required.
+Use **Python 3.11.5 or later** and **Z3 4.13.0**.  The code imports Z3 through its Python bindings; installing the `z3-solver` package provides the Z3 library required by the artifact, so a separate Z3 command-line installation is not required.
 
 ### Linux and macOS/Unix (Recommended)
 
@@ -27,12 +27,12 @@ From the repository root, create an isolated environment and install the require
 python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install --upgrade pip
-python3 -m pip install "z3-solver>=4.13.0"
+python3 -m pip install "z3-solver==4.13.0"
 python3 --version
 python3 -c 'import z3; print(z3.get_version_string())'
 ```
 
-The last two commands must report Python >=3.11.5 and Z3 >=4.13.0.
+The last two commands must report Python >=3.11.5 and Z3 = 4.13.0.
 
 ### Windows (PowerShell) (Not tested and unverified)
 
@@ -40,7 +40,7 @@ The last two commands must report Python >=3.11.5 and Z3 >=4.13.0.
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 py -m pip install --upgrade pip
-py -m pip install "z3-solver>=4.13.0"
+py -m pip install "z3-solver==4.13.0"
 py --version
 py -c "import z3; print(z3.get_version_string())"
 ```
@@ -128,15 +128,15 @@ python3 user_input.py explain > output/design.txt
 New-Item -ItemType Directory -Force output | Out-Null
 Remove-Item Env:\PYTHONPATH
 $env:PYTHONPATH = "."
-py > output\design.txt 2>&1
-py explain > output\microservice_design_explain.txt 2>&1
+py > output\design.txt 
+py explain > output\microservice_design_explain.txt 
 ```
 If constraint explanations are intended:
 ```powershell
 New-Item -ItemType Directory -Force output | Out-Null
 Remove-Item Env:\PYTHONPATH
 $env:PYTHONPATH = "."
-py explain > output\microservice_design_explain.txt 2>&1
+py explain > output\microservice_design_explain.txt 
 ```
 
 ## Results
