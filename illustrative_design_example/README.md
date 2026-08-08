@@ -2,21 +2,7 @@
 
 This directory is the submitted, runnable Archie illustrative-design case study. It models a pod topology, available hardware, and design choices across network systems and protocols. Archie converts these choices and their compatibility rules into a Z3 optimization problem, maximizing the workload objectives while checking all registered constraints. An optional explanation mode reports why conflicting choices cannot coexist.
 
-## Prerequisites
-
-Run with **Python 3.11.5 or later** and **Z3 4.13.0 or later**. Install Z3’s Python bindings, which include the required solver library:
-
-```bash
-# Linux/macOS/Unix, from the repository root
-python3 -m pip install "z3-solver>=4.13.0"
-```
-
-```powershell
-# Windows PowerShell, from the repository root
-py -m pip install "z3-solver>=4.13.0"
-```
-
-Verify the environment with `python -c 'import z3; print(z3.get_version_string())'` on Unix or `py -c "import z3; print(z3.get_version_string())"` on Windows. It must report Z3 4.13.0 or later.
+Verify the environment with `python3 -c 'import z3; print(z3.get_version_string())'` on Unix or `py -c "import z3; print(z3.get_version_string())"` on Windows. It must report Z3 4.13.0 or later.
 
 ## Contents
 
@@ -25,7 +11,7 @@ Verify the environment with `python -c 'import z3; print(z3.get_version_string()
 | [`src/archie.py`](src/archie.py) | Self-contained copy of Archie’s core modeling, optimization, result-reporting, and explanation engine. |
 | [`hardware/hardware.py`](hardware/hardware.py) | Declares the candidate hardware profiles used by the case study. |
 | [`user_topology.py`](user_topology.py) | Builds the illustrative topology. |
-| [`user_input.py`](user_input.py) | Defines the workloads and objectives, calls the solver, and enables explanation mode when an argument is supplied. |
+| [`user_input.py`](user_input.py) | Defines the workloads with its properties and objectives, calls the solver, and enables explanation mode when an argument is supplied. |
 | [`systems/`](systems/) | System-policy definitions and [`systems/orderings.py`](systems/orderings.py), which declares relative ordering for objectives. |
 | [`output/`](output/) | Optional case-study-local destination for generated reports. |
 | [`README.md`](README.md) | This case-study guide. |
@@ -48,7 +34,7 @@ prioritizes `ease_of_deployment` over `latency`.
 ```bash
 unset PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}:."
-python3 user_input.py > output/illustrative_design.txt 2>&1
+python3 user_input.py > output/illustrative_design.txt
 ```
 
 To replicate the paper’s **single-workload** example, run the command with `explain`; the output will include the explanation report:
@@ -56,7 +42,7 @@ To replicate the paper’s **single-workload** example, run the command with `ex
 ```bash
 unset PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}:."
-python3 user_input.py explain > output/illustrative_design_explain.txt 2>&1
+python3 user_input.py explain > output/illustrative_design_explain.txt
 ```
 
 ### Windows (PowerShell) (Not Tested and unverified)
@@ -87,7 +73,15 @@ To replicate the paper’s **additional-workload** example, edit [`user_input.py
 2. Comment out the `explain(...)` call on line 49 and uncomment the alternative `explain(...)` call on line 50.
 3. Run the explanation command above.
 
-## Explainability and system constraints
+## Explanation Framework
+The definition of explain function is:
+```python
+explain(workload, order_role, order_objective, fix_hardware=None, fix_roles=None, solver=SOLVER)
+```
+The required arguments are **workload**, which is relevant when there are more than 1 workloads, **order_role**, to determine which role's ordering to check, **order_objective** to also determine which ordering to check.
+The optional arguments are **fix_hardware**, which if None (by default) allows all hardware to be flexible when considering to enable the non-chosen higher priority system, "all" which means the hardware choices are fixed and cannot be changed when trying to enable to non-chosen higher priority system, or a list that contains a subset of hardware choices to fix. For fix_roles, it takes None (by default) which _fixes_ all the systems chosen for the other roles, or a list containing a subset of roles to be fixed while trying to enable non-chosen higher priority system. 
+
+## Explainability and system constraints format
 
 Rather than using `assert_and_track` for every constraint, this case study includes objectives and workload properties as Boolean variables in the solver. Each variable has a description, which is displayed in the explanation output to make the relevant system constraints easier to understand.
 
