@@ -98,6 +98,8 @@ flowchart LR
 
 **Please take assistance from the input LLM for any addition of components to the code, as this allows for maintaining the right syntax and not result in crashes. If the LLM is not possible, an API definition is given for non-intuitive function calls for assistance.**
 
+**NOTE: IF AND WHEN IN DOUBT, PLEASE COPY OVER THE EXAMPLE CODE AND MAKE CHANGES, AS THE SYNTAX WOULD BE PROPER AND COMPLETE IN THAT CASE**
+
 ### Reassessing a selected design
 
 Use the `explain` flag when the baseline design is infeasible: Archie will refine and report the tracked constraints in the unsatisfiable core. To understand why a higher-ranked system was not selected in an otherwise feasible baseline, call `explain(workload_name, ordering_role, ordering_objective, fix_roles=...)`. Archie keeps the requested existing choices fixed, forces a higher-priority candidate in the specified role, and reports the constraints that prevent that alternative.
