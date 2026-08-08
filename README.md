@@ -112,14 +112,14 @@ Use the exact identifiers declared in `definitions.json` and the engine—for ex
 ```bash
 unset PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}:."
-python3 user_input.py > output/microservice_design.txt 2>&1
+python3 user_input.py > output/design.txt
 ```
 
 If constraint explanations are intended:
 ```bash
 unset PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}:."
-python3 user_input.py explain > output/design.txt 2>&1
+python3 user_input.py explain > output/design.txt
 ```
 
 ### Windows (PowerShell) (Not Tested and unverified)
