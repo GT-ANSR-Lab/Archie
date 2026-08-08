@@ -64,14 +64,14 @@ flowchart LR
     end
 
     subgraph user["User design exploration"]
-        U1["Define one or more workloads<br/>in user_input.py"]
-        U2["Describe the topology<br/>in user_topology.py"]
+        U1["Define one or more workloads<br/> in user_input.py"]
+        U2["Describe the topology<br/> in user_topology.py"]
         U3["Add the hardware inventory"]
-        U4["Declare system partial orderings<br/>in systems/"]
-        U5["Run user_input.py<br/>and inspect output/"]
-        U6{"Need to explain<br/>a non-selected choice?"}
-        U7["Run explanation mode and<br/>request the higher-ranked alternative"]
-        U8["Read the feasibility or<br/>unsatisfiable-core explanation"]
+        U4["Declare system partial orderings<br/> in systems/"]
+        U5["Run user_input.py<br/> and inspect output/"]
+        U6{"Need to explain<br/> a non-selected choice?"}
+        U7["Run explanation mode and<br/> request the higher-ranked alternative"]
+        U8["Read the feasibility or<br/> unsatisfiable-core explanation"]
         U1 --> U2 --> U3 --> U4 --> U5 --> U6
         U6 -- "yes" --> U7 --> U8
         U8 --> U1
