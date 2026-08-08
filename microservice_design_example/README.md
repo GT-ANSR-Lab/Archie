@@ -50,15 +50,15 @@ python3 user_input.py explain > output/microservice_design.txt
 New-Item -ItemType Directory -Force output | Out-Null
 Remove-Item Env:\PYTHONPATH
 $env:PYTHONPATH = "."
-py > output\design.txt 2>&1
-py explain > output\microservice_design_explain.txt 2>&1
+py > output\design.txt
+py explain > output\microservice_design_explain.txt
 ```
 If constraint explanations are intended:
 ```powershell
 New-Item -ItemType Directory -Force output | Out-Null
 Remove-Item Env:\PYTHONPATH
 $env:PYTHONPATH = "."
-py explain > output\microservice_design_explain.txt 2>&1
+py explain > output\microservice_design_explain.txt
 ```
 
 ## Explanation Framework
