@@ -51,7 +51,7 @@ python3 user_input.py explain > output/illustrative_design_explain.txt
 New-Item -ItemType Directory -Force output | Out-Null
 Remove-Item Env:\PYTHONPATH
 $env:PYTHONPATH = "."
-py user_input.py > output\illustrative_design.txt 2>&1
+py user_input.py > output\illustrative_design.txt
 ```
 
 To include constraint explanations:
@@ -60,7 +60,7 @@ To include constraint explanations:
 New-Item -ItemType Directory -Force output | Out-Null
 Remove-Item Env:\PYTHONPATH
 $env:PYTHONPATH = "."
-py user_input.py explain > output\illustrative_design_explain.txt 2>&1
+py user_input.py explain > output\illustrative_design_explain.txt
 ```
 
 Read the standard report at [`output/illustrative_design.txt`](output/illustrative_design.txt) and the explanation report at [`output/illustrative_design_explain.txt`](output/illustrative_design_explain.txt). The first command is sufficient for normal reproduction; the second is for inspecting constraint explanations.
