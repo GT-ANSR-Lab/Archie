@@ -71,7 +71,10 @@ To replicate the paper’s **additional-workload** example, edit [`user_input.py
 
 1. Uncomment the `FrontEnd_Workload` definition and its three `Optimize` calls on lines 37–40.
 2. Comment out the `explain(...)` call on line 49 and uncomment the alternative `explain(...)` call on line 50.
-3. Run the explanation command above.
+
+Update the [`systems/orderings.py`](systems/orderings.py) by commenting out 80 and 81 (the first 2 lines of Orderings in the Virtual Switch) and uncommenting lines 82 and 83 (the second 2 lines of Orderings in the Virtual Switch).
+
+3. Finally, run the explanation command above.
 
 ## Explanation Framework
 The definition of explain function is:
