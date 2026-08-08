@@ -74,7 +74,7 @@ To replicate the paper’s **additional-workload** example, edit [`user_input.py
 
 Update the [`systems/orderings.py`](systems/orderings.py) by commenting out 80 and 81 (the first 2 lines of Orderings in the Virtual Switch) and uncommenting lines 82 and 83 (the second 2 lines of Orderings in the Virtual Switch).
 
-3. Finally, run the explanation command above.
+Finally, run the explanation command above.
 
 ## Explanation Framework
 The definition of explain function is:
