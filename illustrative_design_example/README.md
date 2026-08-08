@@ -2,7 +2,7 @@
 
 This directory is the submitted, runnable Archie illustrative-design case study. It models a pod topology, available hardware, and design choices across network systems and protocols. Archie converts these choices and their compatibility rules into a Z3 optimization problem, maximizing the workload objectives while checking all registered constraints. An optional explanation mode reports why conflicting choices cannot coexist.
 
-Verify the environment with `python3 -c 'import z3; print(z3.get_version_string())'` on Unix or `py -c "import z3; print(z3.get_version_string())"` on Windows. It must report Z3 4.13.0 or later.
+Verify the environment with `python3 -c 'import z3; print(z3.get_version_string())'` on Unix or `py -c "import z3; print(z3.get_version_string())"` on Windows. It must report Z3 4.13.0.
 
 ## Contents
 
