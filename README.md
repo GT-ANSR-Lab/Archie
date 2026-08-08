@@ -6,10 +6,11 @@ Archie is a lightweight yet expressive constraint-based design and verification 
 
 | Directory | Purpose |
 | --- | --- |
-| [`src/`](src/README.md) | Archie’s Python modeling, optimization, and explanation engine. |
-| [`hardware/`](hardware/README.md) | A hardware catalogue for extending Archie designs. |
-| [`systems/`](systems/README.md) | Reserved location for system-policy modules. |
-| [`microservice_design_example/`](microservice_design_example/README.md) | Complete runnable microservice case study, including its topology, hardware, and policies, reflecting the example described in the paper. |
+| [`src/`](src) | Archie’s Python modeling, optimization, and explanation engine. |
+| [`hardware/`](hardware) | A hardware catalogue for extending Archie designs. Currently it has an empty file with template that follows from the hardware files in the directories of the examples.|
+| [`systems/`](systems) | Set of files where each file encodes as many constraint for a particular system as possible, followed by the instantiatio of the system using the API Currently this folder is empty, as this will be filled by experts. |
+| [`microservice_design_example/`](microservice_design_example/README.md) | Complete runnable microservice case study reflecting the example described in the paper. |
+| [`illustrative_design_example/`](illustrative_design_example/README.md) | Complete runnable illustrative case study reflecting the example described in the paper. |
 | `output/` | Generated reports; this directory intentionally has no README. |
 | `user_input.py` | The input file template containing the main() function with the user's workload description, function call to topology creation, listing of objectives and their priorities and a switch to consider whether to trigger an explanation for the output. |
 | `user_topology.py` | Function containing user's topology description using provided APIs. |
@@ -23,12 +24,12 @@ Use **Python 3.11.5 or later** and **Z3 4.13.0 or later**.  The code imports Z3 
 From the repository root, create an isolated environment and install the required Z3 version:
 
 ```bash
-python3.11 -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install "z3-solver>=4.13.0"
-python --version
-python -c 'import z3; print(z3.get_version_string())'
+python3 -m pip install --upgrade pip
+python3 -m pip install "z3-solver>=4.13.0"
+python3 --version
+python3 -c 'import z3; print(z3.get_version_string())'
 ```
 
 The last two commands must report Python >=3.11.5 and Z3 >=4.13.0.
@@ -82,18 +83,20 @@ flowchart LR
 
 ### Expert authoring
 
-1. **Maintain the design vocabulary.** Update `definitions.json` with the supported roles, workload properties, objectives, and systems. Keep names stable and unambiguous: user inputs, policy modules, and generated initialization code must use the same identifiers.
-2. **Initialize the engine.** Provide the manifest to the input LLM, which can add the corresponding Archie declarations and registration code. Review the generated code to ensure every declared role, property, objective, and system is registered before a `Workload` is constructed.
-3. **Add system knowledge.** For each candidate system, encode its compatibility and resource constraints in the corresponding file under `systems/`. The input LLM may help add the constraint and update related registrations, configuration options, or ordering modules, but the expert must validate that the resulting policy matches the intended architectural rule.
+1. **Maintain the design vocabulary.** In order to get started, expert needs to update `definitions.json` with the supported workload properties, objectives, and roles. Keep names stable and unambiguous: user inputs, policy modules, and generated initialization code must use the same identifiers.
+2. **Initialize the engine.** Provide the json manifest to the input LLM, which can add the corresponding Archie declarations and registration code. Review the generated code to ensure every declared role, property, objective, and system is registered before a `Workload` is constructed.
+3. **Add system knowledge.** For each candidate system, the corresponding expert will encode its compatibility and resource constraints in the corresponding file under `systems/`. The input LLM may help add the constraint and update related registrations, configuration options, or ordering modules, but the expert must validate that the resulting policy matches the intended architectural rule. This will be a completely iterative process that may require significant time and effort, specifically in vetting/validation. 
 4. **Review the complete change.** A new system or capability can affect the engine, hardware catalogue, workload definitions, and policy orderings. Check these changes together before making the vocabulary available to users.
 
 ### User design exploration
 
-1. **Define workloads.** Select the applicable subset of properties and objectives from `definitions.json` for each workload. Ask the input LLM to place the resulting `Workload(...)` definitions, optimization priorities, and solver invocation in `user_input.py`.
-2. **Describe the topology.** Implement the chosen devices and their hierarchy in `user_topology.py` using Archie’s topology APIs. The input module should call this topology constructor before it creates the workload.
-3. **Add the available hardware.** Provide the full hardware inventory to the input LLM so it can create the required `Hardware(...)` definitions and, when a new capability is introduced, update the engine declarations needed to model it. Review generated configuration keys carefully; every key must be supported by the relevant Archie device type.
-4. **Declare partial orderings.** Add the user’s objective-specific preference relations between systems in `systems/`. The input LLM can help with the `Ordering(...)` syntax, but the user should confirm that each relation expresses the intended preference and does not over-constrain the design.
+1. **Define workloads.** Select the applicable subset of properties and objectives from `definitions.json` for each workload. Ask the input LLM to place the resulting `Workload(...)` definitions, optimization priorities, and solver invocation in `user_input.py`. Ensure the objectives are ordered according to what they want to optimize for. Note that the objectives are defined, new ones cannot be created. It is recommended to always have the Optimization priorities for each objective (unless there is no preference) to reduce randomness in results. Please look at the examples provided to see how to construct this. 
+2. **Describe the topology.** Implement the chosen devices and their hierarchy in `user_topology.py` using Archie’s topology APIs. The input module should call this topology constructor before it creates the workload. 
+3. **Add the available hardware.** Provide the full hardware inventory to the input LLM so it can create the required `Hardware(...)` definitions and, when a new capability is introduced, update the engine declarations needed to model it. Review generated configuration keys carefully; every key must be supported by the relevant Archie device type. Again it's best to read the examples carefully and then follow the same template. 
+4. **Declare partial orderings.** Add the objective-specific preference relations between systems in `systems/`. The input LLM can help with the `Ordering(...)` syntax, but the user should confirm that each relation expresses the intended preference and does not over-constrain the design.
 5. **Run and inspect Archie.** Execute `user_input.py` using the platform-specific command below. Review the generated report in `output/` for the chosen systems, configurations, hardware assignments, and any warnings.
+
+**Please take assistance from the input LLM for any addition of components to the code, as this allows for maintaining the right syntax and not result in crashes. If the LLM is not possible, an API definition is given for non-intuitive function calls for assistance.**
 
 ### Reassessing a selected design
 
