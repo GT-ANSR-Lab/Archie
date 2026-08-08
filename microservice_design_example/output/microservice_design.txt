@@ -1,0 +1,58 @@
+{<DEVICE_TYPE.COMPUTE: 2>: {'c220g1-cloudlab': 0, 'c220g2-cloudlab': 1}}
+Time taken by z3 to solve 0.05019187927246094
+
+** Assignments **
+
+** Hardware assignments **
+node0_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node9_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node2_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node7_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node3_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node1_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node5_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node6_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node4_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+node8_DEVICE_TYPE.COMPUTE = c220g2-cloudlab
+
+** Systems deployed **
+Microservice -
+1. Container runtime role: Containerd
+2. Orchestrator role: Kubernetes_orchestrator
+3. Service mesh role: Linkerd
+4. Autoscaler role: Kubernetes_autoscaler
+5. Rpc role: gRPC
+
+
+** Other values **
+Total cost = 0
+###########################
+EXPLAINING
+High priority systems for Microservice than Linkerd : ['Istio']
+No feasible solution found
+Unsat core: [track_3,
+ track_1,
+ KEDA is not recommended when ease of deployment is an objective with low-or-medium heterogeneous load as it requires configuration of metric policies that are not required with such loads i.e memory and CPU usage are sufficient metrics,
+ Istio_enable,
+ Kubernetes autoscaler excludes Istio when ease of deployment is an objective and Service mesh is a role because of additional configuration steps]
+
+CHOICES
+
+Solution Istio for workload Microservice == True
+-------
+@@@@@@@@@@@@@@@@@@@@@@@@@
+
+CONSTRAINTS
+
+Implies ( Not ( And ( Or ( Not ( True )  , 
+                   Or ( Solution Kubernetes_autoscaler for workload Microservice , 
+                      Solution KEDA for workload Microservice )  )  )  )  , 
+        Not ( Role Autoscaler is solved )  ) 
+-------
+Implies ( True ,  Role Autoscaler is solved ) 
+-------
+Implies ( Solution KEDA for workload Microservice ,  False ) 
+-------
+Implies ( Solution Kubernetes_autoscaler for workload Microservice , 
+        Not ( Solution Istio for workload Microservice )  ) 
+-------

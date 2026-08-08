@@ -1,0 +1,54 @@
+{'pod1IN-POD_1IN-RACK_DEVICE_TYPE.ROUTER': <src.archie.Device object at 0x10082cd50>, 'pod1IN-POD_1IN-RACK_0_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f7410>, 'pod1IN-POD_1IN-RACK_1_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f7650>, 'pod1IN-POD_1IN-RACK_2_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f0090>, 'pod1IN-POD_1IN-RACK_3_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f06d0>, 'pod1IN-POD_1IN-RACK_4_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f0ed0>, 'pod1IN-POD_1IN-RACK_5_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f0390>, 'pod1IN-POD_1IN-RACK_6_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1010f1f10>, 'pod1IN-POD_1IN-RACK_0_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f2f50>, 'pod1IN-POD_1IN-RACK_1_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f3050>, 'pod1IN-POD_1IN-RACK_2_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f3290>, 'pod1IN-POD_1IN-RACK_3_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f34d0>, 'pod1IN-POD_1IN-RACK_4_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f3710>, 'pod1IN-POD_1IN-RACK_5_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f3ad0>, 'pod1IN-POD_1IN-RACK_6_DEVICE_TYPE.LINK': <src.archie.Device object at 0x1010f3bd0>, 'pod1IN-POD_2IN-RACK_DEVICE_TYPE.ROUTER': <src.archie.Device object at 0x1010f16d0>, 'pod1IN-POD_2IN-RACK_0_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x101108410>, 'pod1IN-POD_2IN-RACK_1_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x1011085d0>, 'pod1IN-POD_2IN-RACK_2_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x101108f10>, 'pod1IN-POD_2IN-RACK_3_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x101109850>, 'pod1IN-POD_2IN-RACK_4_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x10110a190>, 'pod1IN-POD_2IN-RACK_5_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x10110b2d0>, 'pod1IN-POD_2IN-RACK_6_DEVICE_TYPE.COMPUTE': <src.archie.Device object at 0x10110b490>, 'pod1IN-POD_2IN-RACK_0_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111c5d0>, 'pod1IN-POD_2IN-RACK_1_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111c790>, 'pod1IN-POD_2IN-RACK_2_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111ca50>, 'pod1IN-POD_2IN-RACK_3_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111cd10>, 'pod1IN-POD_2IN-RACK_4_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111cfd0>, 'pod1IN-POD_2IN-RACK_5_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111d3d0>, 'pod1IN-POD_2IN-RACK_6_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111d590>, 'pod1IN-POD_0_DEVICE_TYPE.ROUTER': <src.archie.Device object at 0x10110aad0>, 'pod1IN-POD_0_0_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111db90>, 'pod1IN-POD_0_1_DEVICE_TYPE.LINK': <src.archie.Device object at 0x10111d210>}
+{<DEVICE_TYPE.LINK: 1>: {'40GLink': 0, '80GLink': 1}, <DEVICE_TYPE.COMPUTE: 2>: {'4Cores': 0, '8Cores': 1, '16Cores': 2, '4Cores_lowFPGA': 3, '8Cores_lowFPGA': 4, '16Cores_lowFPGA': 5, '4Cores_highFPGA': 6, '16Cores_highFPGA': 7, '4Cores_HighReorder': 8, '4Cores_SmartNIC': 9, '8Cores_SmartNIC': 10, '4Cores_rdma': 11, '8Cores_rdma': 12}, <DEVICE_TYPE.ROUTER: 0>: {'router_2qos_5memory': 0, 'router_4_qos_10_memory_ecn': 1, 'router_8_qos_20_memory_ecn_int': 5, 'router_4_qos_10_memory_int': 3, 'router_16_qos_10_memory_ecn_int': 4, 'TofinoV1Router': 6, 'TofinoV2Router': 7, 'router_highcores': 8}}
+Time taken by z3 to solve 0.7529971599578857
+
+** Assignments **
+
+** Hardware assignments **
+pod1IN-POD_1IN-RACK_0_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_1IN-RACK_3_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_2IN-RACK_6_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_2IN-RACK_5_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_2IN-RACK_6_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_1IN-RACK_5_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_0_0_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_1IN-RACK_2_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_2IN-RACK_0_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_0_DEVICE_TYPE.ROUTER = router_highcores
+pod1IN-POD_1IN-RACK_2_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_1IN-RACK_4_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_1IN-RACK_6_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_2IN-RACK_DEVICE_TYPE.ROUTER = router_highcores
+pod1IN-POD_1IN-RACK_6_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_1IN-RACK_3_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_2IN-RACK_3_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_2IN-RACK_3_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_2IN-RACK_2_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_2IN-RACK_5_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_2IN-RACK_4_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_2IN-RACK_1_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_1IN-RACK_DEVICE_TYPE.ROUTER = TofinoV1Router
+pod1IN-POD_2IN-RACK_2_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_0_1_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_2IN-RACK_4_DEVICE_TYPE.LINK = 80GLink
+pod1IN-POD_1IN-RACK_0_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_1IN-RACK_1_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_2IN-RACK_0_DEVICE_TYPE.COMPUTE = 8Cores_rdma
+pod1IN-POD_1IN-RACK_1_DEVICE_TYPE.COMPUTE = 16Cores_highFPGA
+pod1IN-POD_1IN-RACK_4_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_1IN-RACK_5_DEVICE_TYPE.LINK = 40GLink
+pod1IN-POD_2IN-RACK_1_DEVICE_TYPE.LINK = 80GLink
+
+** Systems deployed **
+ML_Training -
+1. cpu_sched role: ZygOS
+2. cca role: DCQCN
+3. virtual_switch role: ANDROMEDA
+4. transport role: RDMA
+5. load_balancer role: PLB
+6. Monitor role: Sonata
+
+
+** Other values **
+Total cost = 11870
+###########################

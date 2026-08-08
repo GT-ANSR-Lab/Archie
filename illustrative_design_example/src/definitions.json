@@ -1,0 +1,47 @@
+{
+  "role": {
+    "Orchestrator": "Coordinates the deployment, scheduling, lifecycle, and scaling of application components across the available infrastructure.",
+    "Rpc": "Provides the request/response communication mechanism used by distributed application components.",
+    "Service Mesh": "Manages service-to-service networking capabilities such as routing, traffic policy, security, and observability.",
+    "Autoscaler": "Adjusts application capacity in response to workload demand or resource-utilization signals.",
+    "Container Runtime": "Runs and manages application containers on a compute node."
+  },
+  "objective": {
+    "latency": "Absolutely minimum end-to-end latency as observed by the client under appropriate load context without sacrificing throughput (experiencing traffic loss) ",
+    "ease_of_deployment": "Deployment should be carried out with systems that have readily available documentation and enough documentation through LLM training context. Allow the user to configure in very short time span and not rely on feedback loops for configuration. Also allow user to setup with minimal hops from the official documentation (hops should step from official docs) and finally should be extremely simple to debug",
+    "throughput": "Maximize the amount of useful work or data processed per unit of time.",
+    "fairness": "Distribute resources or service quality equitably among competing workloads or flows.",
+    "load_balancing": "Distribute work across available resources to avoid hotspots and improve utilization.",
+    "host_resource_isolation": "Prevent one workload from adversely affecting another workload's host-level resources.",
+    "compute_efficiency": "Use compute capacity efficiently while meeting the workload's requirements.",
+    "application_modification": "Minimize changes required to the application in order to adopt the selected design.",
+    "monitoring": "Provide sufficient visibility into application and system behavior for operation and diagnosis.",
+    "cost_efficiency": "Minimize infrastructure and operational cost while satisfying design requirements.",
+    "low_utilization": "Prefer designs that operate without sustained resource overutilization."
+  },
+  "properties": {
+    "short_flows": "The workload consists of short-lived network flows.",
+    "long_flows": "The workload consists of long-lived network flows.",
+    "wan_flows": "The workload includes flows that traverse a wide-area network.",
+    "dc_flows": "The workload includes flows contained within a data-center network.",
+    "internet_flows": "The workload exchanges traffic with endpoints on the public Internet.",
+    "high_priority": "The workload requires preferential treatment relative to lower-priority work.",
+    "regular_priority": "The workload has normal, best-effort priority.",
+    "low_priority": "The workload can yield resources or service quality to higher-priority work.",
+    "incast": "The workload can create many-to-one traffic bursts at a receiver.",
+    "ml_training": "The workload performs machine-learning model training.",
+    "short_spans": "The workload is composed of short-lived application request spans or tasks.",
+    "application_observability": "The workload requires application-level metrics, logs, traces, and diagnostic visibility at a fine granularity",
+    "l7_load_balancing": "The workload allows load balancing based on Layer-7 application semantics.",
+    "external_resources": "The workload depends on resources or services with network connections outside the managed deployment.",
+    "heterogenous": "The workload utilization is heterogeneous across the different services, leading to distinct utilization and memory consumption within a larger range.",
+    "low_load": "There is very low level load/traffic expected on average.",
+    "medium_load": "There is not high level or low level load/traffic expected on average.",
+    "high_load": "There is very high level load/traffic expected on average.",
+    "non_root": "The workload must run without root or equivalent administrative privileges.",
+    "go": "The applications completely implemented in Go.",
+    "tls": "The workload requires Transport Layer Security for protected communications.",
+    "ui": "The workload demands on a user-facing interface.",
+    "fixed_arch": "The workload requires a fixed processor or platform architecture across relevant nodes."
+  }
+}
