@@ -56,9 +56,9 @@ This workflow also assumes a project-level `definitions.json` manifest. It is th
 ```mermaid
 flowchart LR
     subgraph expert["Expert authoring"]
-        E1["Maintain definitions.json<br/>roles · properties · objectives · systems"]
-        E2["Use the input LLM to generate<br/>engine initialization"]
-        E3["Encode system constraints<br/>in the corresponding policy module"]
+        E1["Maintain definitions.json roles · properties · objectives · systems"]
+        E2["Use the input LLM to generate<br/> engine initialization"]
+        E3["Encode system constraints<br/> in the corresponding policy module"]
         E4["Review generated cross-module changes"]
         E1 --> E2 --> E3 --> E4
     end
